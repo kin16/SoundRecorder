@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        tools:ignore="MissingConstraints"
+        app:hintTextAppearance="@style/MyHintText"
+        android:id="@+id/input_layout"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+        <EditText
+            android:inputType="textAutoCorrect|textCapSentences"
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:hint="@string/title"
+            android:layout_below="@+id/image_view"
+            android:theme="@style/MyEditText"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/write"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search"
+        android:onClick="onClick"
+        style="@style/ButtonMain"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/start_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start record"
+        android:onClick="onClick"
+        style="@style/ButtonMain"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <Button
+        android:id="@+id/stop_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop record"
+        android:onClick="onClick"
+        android:layout_marginTop="10dp"
+        style="@style/ButtonMain"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <Button
+        android:id="@+id/start_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start play"
+        android:onClick="onClick"
+        android:layout_marginTop="10dp"
+        style="@style/ButtonMain"
+        android:layout_gravity="center_vertical|center_horizontal" />
+
+    <Button
+        android:id="@+id/stop_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop play"
+        android:onClick="onClick"
+        android:layout_marginTop="10dp"
+        style="@style/ButtonMain"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+</LinearLayout>

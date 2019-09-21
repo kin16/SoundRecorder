@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Jpeg</string>
+    <string name="title">Расположение вашего файла</string>
+    <string name="search">Записать</string>
+    <string name="error">Введите корректное расположение файла</string>
+</resources>
