@@ -1,37 +1,25 @@
 package com.example.jpeg;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.lang.ref.WeakReference;
 
 
 public class MainActivity extends AppCompatActivity {
+    private final int PERMISSIONS_RECORD_AUDIO = 1;
+    private final int PERMISSIONS_WRITE_STORAGE = 2;
     private Sound sound = new Sound();
     private EditText mEditText;
+    private Handler handler = new Handler();
+    private MainActivity mainActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +35,18 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.write:
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_WRITE_STORAGE);
+                }
                 sound.write(mEditText.getText().toString(), this);
             case R.id.start_record:
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_RECORD_AUDIO);
+                }
+
                 sound.recordStart();
+                handler.post(mPollTask);
                 break;
             case R.id.stop_record:
                 sound.recordStop();
@@ -61,4 +58,17 @@ public class MainActivity extends AppCompatActivity {
                 sound.playStop();
         }
     }
+
+    private Runnable mPollTask = new Runnable() {
+        public void run() {
+            double amp = sound.getAmplitude();
+
+            if ((amp > 0)) {
+                sound.recordStop();
+                Toast.makeText(mainActivity, "Остановлено", Toast.LENGTH_LONG).show();
+            } else {
+                handler.postDelayed(mPollTask, 200);
+            }
+        }
+    };
 }

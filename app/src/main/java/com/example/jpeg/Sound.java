@@ -4,9 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.view.View;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -81,7 +79,7 @@ public class Sound {
 
     public void write(String path, Context context){
         File file = new File(path);
-        if(path == null || path.equals("")){
+        if(path.equals(null) || path.equals("")){
             Toast.makeText(context,"Введить путь для файла", Toast.LENGTH_LONG).show();
         }else if(outFile == null){
             Toast.makeText(context,"Запишите аудио", Toast.LENGTH_LONG).show();
@@ -101,5 +99,12 @@ public class Sound {
                 System.out.println(ex.getMessage());
             }
         }
+    }
+
+    public double getAmplitude() {
+        if (mediaRecorder != null)
+            return   20 * Math.log10(mediaRecorder.getMaxAmplitude() / 2700.0);
+        else
+            return 0;
     }
 }
