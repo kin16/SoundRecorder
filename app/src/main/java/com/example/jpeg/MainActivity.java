@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mEditText = findViewById(R.id.input);
-        mEditText.setText(Environment.getExternalStorageDirectory() + "/record.3gpp");
+        mEditText.setText(Environment.getExternalStorageDirectory() + "/records/record.3gpp");
+        sound.mkdir();
     }
 
 
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 sound.write(mEditText.getText().toString(), this);
             case R.id.start_record:
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_RECORD_AUDIO);
                 }
 
@@ -61,13 +61,20 @@ public class MainActivity extends AppCompatActivity {
 
     private Runnable mPollTask = new Runnable() {
         public void run() {
-            double amp = sound.getAmplitude();
+            try {
+                double amp = sound.getAmplitude();
 
-            if ((amp > 0)) {
-                sound.recordStop();
-                Toast.makeText(mainActivity, "Остановлено", Toast.LENGTH_LONG).show();
-            } else {
-                handler.postDelayed(mPollTask, 200);
+                if ((amp > 0)) {
+                    synchronized (this) {
+                        wait(300);
+                    }
+                    sound.recordStop();
+                    Toast.makeText(mainActivity, "Остановлено", Toast.LENGTH_LONG).show();
+                } else {
+                    handler.postDelayed(mPollTask, 20);
+                }
+            }catch (InterruptedException e){
+                e.printStackTrace();
             }
         }
     };

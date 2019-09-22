@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Sound {
     private MediaRecorder mediaRecorder;
     private MediaPlayer mediaPlayer;
-    private String fileName = Environment.getExternalStorageDirectory() + "/record.3gpp";
+    private String fileName = Environment.getExternalStorageDirectory() + "/records/record_pattern.3gpp";
     private File outFile;
 
     public void recordStart() {
@@ -78,21 +78,27 @@ public class Sound {
     }
 
     public void write(String path, Context context){
-        File file = new File(path);
+        mkdir();
         if(path.equals(null) || path.equals("")){
             Toast.makeText(context,"Введить путь для файла", Toast.LENGTH_LONG).show();
+        }else if(new File(path).exists()) {
+            Toast.makeText(context,"Такой файл уже существует", Toast.LENGTH_LONG).show();
         }else if(outFile == null){
             Toast.makeText(context,"Запишите аудио", Toast.LENGTH_LONG).show();
         }else {
-
+            File file = new File(path);
             try(FileInputStream fin=new FileInputStream(outFile);
                 FileOutputStream fos=new FileOutputStream(file))
             {
-                byte[] buffer = new byte[fin.available()];
+                /*byte[] buffer = new byte[fin.available()];
                 // считываем буфер
                 fin.read(buffer, 0, buffer.length);
                 // записываем из буфера в файл
                 fos.write(buffer, 0, buffer.length);
+                 */
+                int min = getDuration() - 350;
+                String[] ffmpeg = new String[] {"ffmpeg", "-i", outFile.getPath(),"-ss", "0."+min, "-t", "0."+getDuration(),"-async","1", "-c", "copy", file.getPath()};
+                Process p = Runtime.getRuntime().exec(ffmpeg);
                 Toast.makeText(context,"Сохранено", Toast.LENGTH_SHORT).show();
             }
             catch(IOException ex){
@@ -101,8 +107,33 @@ public class Sound {
         }
     }
 
+    private int getDuration() {
+        //узнаем продолжительность записи
+        int duration = 0;
+        try {
+            MediaPlayer mplayer = new MediaPlayer();
+            mplayer.setDataSource(fileName);
+            mplayer.prepare();
+            duration = mplayer.getDuration();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return duration;
+    }
+
+    public void mkdir(){
+        File theDir = new File(Environment.getExternalStorageDirectory() + "/records");
+        //создание папки, если отсутсвует
+        if (!theDir.exists()) {
+            System.out.println("creating directory: " + theDir.getName());
+            theDir.mkdir();
+        }
+    }
+
     public double getAmplitude() {
         if (mediaRecorder != null)
+            //вычисление амплитуды
             return   20 * Math.log10(mediaRecorder.getMaxAmplitude() / 2700.0);
         else
             return 0;

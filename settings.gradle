@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':ffmpeg_arm.3.3.2'
 rootProject.name='Jpeg'
