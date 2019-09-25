@@ -27,6 +27,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.android.support:design:'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation project(path: ':ffmpeg_arm.3.3.2')
+    implementation project(path: ':FFmpegAndroid-0.3.2')
 }

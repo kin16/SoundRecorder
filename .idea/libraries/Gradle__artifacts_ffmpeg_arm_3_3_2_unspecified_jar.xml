@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: artifacts:ffmpeg_arm.3.3.2:unspecified@jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ffmpeg_arm.3.3.2/build/.transforms/be9082d2125aa2d347303fdfc6aea0c7/ffmpeg_arm.3.3.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/ffmpeg_arm.3.3.2/build/.transforms/be9082d2125aa2d347303fdfc6aea0c7/ffmpeg_arm.3.3.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

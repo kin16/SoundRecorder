@@ -2,5 +2,8 @@
     <string name="app_name">Jpeg</string>
     <string name="title">Расположение вашего файла</string>
     <string name="search">Записать</string>
-    <string name="error">Введите корректное расположение файла</string>
+    <string name="start_play">Start Play</string>
+    <string name="stop_play">Stop Play</string>
+    <string name="start_record">Start Record</string>
+    <string name="stop_record">Stop Record</string>
 </resources>

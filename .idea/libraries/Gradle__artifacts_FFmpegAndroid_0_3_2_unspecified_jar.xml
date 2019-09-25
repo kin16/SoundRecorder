@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: artifacts:FFmpegAndroid-0.3.2:unspecified@jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FFmpegAndroid-0.3.2/build/.transforms/9b77e59e03b2b01ed6bfc76b3fb01605/FFmpegAndroid-0.3.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/FFmpegAndroid-0.3.2/build/.transforms/9b77e59e03b2b01ed6bfc76b3fb01605/FFmpegAndroid-0.3.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
