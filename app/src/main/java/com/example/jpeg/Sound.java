@@ -55,27 +55,22 @@ public class Sound {
 
     public void playStart(Context context) {
         try {
-            releasePlayer();
-            mediaPlayer = new MediaPlayer();
-            if(file == null){
-                Toast.makeText(context, "Запишите аудио", Toast.LENGTH_LONG).show();
+            if (file == null) {
+                Toast.makeText(context, "Сохраните аудио", Toast.LENGTH_LONG).show();
+            } else {
+                releasePlayer();
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(file.getAbsolutePath());
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                }
+                mediaPlayer.prepare();
+                mediaPlayer.start();
             }
-            mediaPlayer.setDataSource(file.getAbsolutePath());
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-            }
-            mediaPlayer.prepare();
-            mediaPlayer.start();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public void playStop() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
         }
     }
 
@@ -94,7 +89,6 @@ public class Sound {
     }
 
     public void preWrite(String path, Context context){
-        mkdir();
         if (path == null || path.equals("")) {
             Toast.makeText(context,"Введить путь для файла", Toast.LENGTH_LONG).show();
         } else if (new File(path).exists()) {

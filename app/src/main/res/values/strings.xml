@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Jpeg</string>
     <string name="title">Расположение вашего файла</string>
-    <string name="search">Записать</string>
+    <string name="save">Сохранить</string>
     <string name="start_play">Start Play</string>
     <string name="stop_play">Stop Play</string>
     <string name="start_record">Start Record</string>

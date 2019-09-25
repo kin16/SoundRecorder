@@ -31,51 +31,30 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:layout_marginTop="30dp"
         android:id="@+id/write"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:text="@string/save"
         android:onClick="onClick"
         style="@style/ButtonMain"
         android:layout_gravity="center_vertical|center_horizontal"/>
     <Button
-        android:layout_marginTop="10dp"
-        android:id="@+id/start_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/record"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
         android:text="@string/start_record"
         android:onClick="onClick"
-        style="@style/ButtonMain"
-        android:layout_gravity="center_vertical|center_horizontal"/>
-
+        style="@style/ButtonRecord"
+        android:layout_gravity="center_horizontal|center_vertical"/>
     <Button
-        android:id="@+id/stop_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_record"
-        android:onClick="onClick"
-        android:layout_marginTop="10dp"
-        style="@style/ButtonMain"
-        android:layout_gravity="center_vertical|center_horizontal"/>
-
-    <Button
-        android:id="@+id/start_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/play"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
         android:text="@string/start_play"
         android:onClick="onClick"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         style="@style/ButtonMain"
         android:layout_gravity="center_vertical|center_horizontal" />
-
-    <Button
-        android:id="@+id/stop_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_play"
-        android:onClick="onClick"
-        android:layout_marginTop="10dp"
-        style="@style/ButtonMain"
-        android:layout_gravity="center_vertical|center_horizontal"/>
 </LinearLayout>

@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private MainActivity activity = this;
     private double lastAmp = 0;
-
+    private Button record;
+    private boolean re = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,35 +35,55 @@ public class MainActivity extends AppCompatActivity {
         mEditText = findViewById(R.id.input);
         mEditText.setText(Environment.getExternalStorageDirectory() + "/records/record.aac");
         sound.mkdir();
+        record = findViewById(R.id.record);
     }
 
 
     public void onClick(View v){
         switch (v.getId()){
             case R.id.write:
-                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_READ_STORAGE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_READ_STORAGE);
                 }
                 sound.preWrite(mEditText.getText().toString(), this);
                 break;
-            case R.id.start_record:
+            case R.id.record:
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_RECORD_AUDIO);
                 }
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_WRITE_STORAGE);
                 }
-                sound.recordStart();
-                handler.post(mPollTask);
+                isRecord();
                 break;
-            case R.id.stop_record:
-                sound.recordStop();
-                break;
-            case R.id.start_play:
+            case R.id.play:
                 sound.playStart(this);
                 break;
-            case R.id.stop_play:
-                sound.playStop();
+        }
+    }
+
+    public void isRecord(){
+        if(!re) {
+            re = true;
+            setDrawableRecord();
+            sound.recordStart();
+            handler.post(mPollTask);
+        }else {
+            re = false;
+            setDrawableRecord();
+            sound.recordStop();
+        }
+    }
+
+    public void setDrawableRecord(){
+        if (re){
+            Drawable drawable = this.getResources().getDrawable(R.drawable.button_main_shape_pres);
+            record.setBackground(drawable);
+            record.setText(R.string.stop_record);
+        } else if(!re){
+            Drawable drawable = this.getResources().getDrawable(R.drawable.button_main_shape);
+            record.setBackground(drawable);
+            record.setText(R.string.start_record);
         }
     }
 
@@ -73,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
                     synchronized (this) {
                         wait(300);
                     }
-                    sound.recordStop();
+                    isRecord();
                     Toast.makeText(activity, "Остановлено", Toast.LENGTH_LONG).show();
                 } else {
                     lastAmp = amp;
-                    handler.postDelayed(mPollTask, 20);
+                    handler.postDelayed(mPollTask, 5);
                 }
             }catch (InterruptedException e){
                 e.printStackTrace();
