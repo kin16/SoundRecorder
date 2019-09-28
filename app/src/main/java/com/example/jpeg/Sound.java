@@ -20,11 +20,12 @@ import java.io.File;
 public class Sound {
     private MediaRecorder mediaRecorder;
     private MediaPlayer mediaPlayer;
-    private String fileName = Environment.getExternalStorageDirectory() + "/records/record_pattern.aac";
+    private final String fileName = Environment.getExternalStorageDirectory() + "/records/record_pattern.aac";
     private File outFile;
     private File file;
-    private static String TAG = "Sound";
+    private static final String TAG = "Sound";
 
+    //Начало записи
     public void recordStart() {
         try {
             releaseRecorder();
@@ -38,6 +39,8 @@ public class Sound {
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            mediaRecorder.setAudioEncodingBitRate(128000);
+            mediaRecorder.setAudioSamplingRate(96000);
             mediaRecorder.setOutputFile(fileName);
             mediaRecorder.prepare();
             mediaRecorder.start();
@@ -47,12 +50,17 @@ public class Sound {
 
     }
 
+    //Остановка записи
     public void recordStop() {
         if (mediaRecorder != null) {
             mediaRecorder.stop();
+            mediaRecorder.reset();
+            mediaRecorder.release();
+            mediaRecorder = null;
         }
     }
 
+    //Начало воспроизведения
     public void playStart(Context context) {
         try {
             if (file == null) {
@@ -88,21 +96,27 @@ public class Sound {
         }
     }
 
-    public void preWrite(String path, Context context){
+    //Подготовка к обрезанию
+    public boolean preWrite(String path, Context context){
         if (path == null || path.equals("")) {
             Toast.makeText(context,"Введить путь для файла", Toast.LENGTH_LONG).show();
+            return false;
         } else if (new File(path).exists()) {
             Toast.makeText(context,"Такой файл уже существует", Toast.LENGTH_LONG).show();
+            return false;
         } else if (outFile == null) {
             Toast.makeText(context,"Запишите аудио", Toast.LENGTH_LONG).show();
+            return false;
         } else {
             file = new File(path);
-            new MyTask(context).execute();
+            new MyTask().execute(context);
             Log.d(TAG, "Start write");
             Toast.makeText(context,"Сохранено", Toast.LENGTH_LONG).show();
+            return true;
         }
     }
 
+    //Обрезание, используя библиотеку ffmpeg
     private void write(Context context) {
             FFmpeg fFmpeg = FFmpeg.getInstance(context);
             try {
@@ -214,15 +228,11 @@ public class Sound {
             return 0;
     }
 
-    private class MyTask extends AsyncTask<Void, Void, Void> {
-        private Context c;
-        public MyTask(Context context){
-            c = context;
-        }
-
+    //Перевод в фоновый поток
+    private class MyTask extends AsyncTask<Context, Void, Void> {
         @Override
-        protected Void doInBackground(Void... voids) {
-            write(c);
+        protected Void doInBackground(Context... voids) {
+            write(voids[0]);
             return null;
         }
     }

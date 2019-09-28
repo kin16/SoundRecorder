@@ -3,7 +3,25 @@
     <string name="title">Расположение вашего файла</string>
     <string name="save">Сохранить</string>
     <string name="start_play">Start Play</string>
-    <string name="stop_play">Stop Play</string>
     <string name="start_record">Start Record</string>
     <string name="stop_record">Stop Record</string>
+    <string-array name="ready">
+        <item>неспелый</item>
+        <item>слегка неспелый</item>
+        <item>спелый</item>
+        <item>слегка переспелый</item>
+        <item>переспелый</item>
+    </string-array>
+    <string-array name="size">
+        <item>0-2</item>
+        <item>2-4</item>
+        <item>4-10</item>
+        <item>>10</item>
+    </string-array>
+    <string name="ready_string">Спелость</string>
+    <string name="size_string">Вес арбуза</string>
+    <string name="question">Чем ударяете?</string>
+    <string name="type">Сорт арбуза</string>
+    <string name="l">Ладонь</string>
+    <string name="k">Кулак</string>
 </resources>
