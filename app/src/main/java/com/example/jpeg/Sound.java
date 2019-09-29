@@ -97,22 +97,12 @@ public class Sound {
     }
 
     //Подготовка к обрезанию
-    public boolean preWrite(String path, Context context){
-        if (path == null || path.equals("")) {
-            Toast.makeText(context,"Введить путь для файла", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (new File(path).exists()) {
-            Toast.makeText(context,"Такой файл уже существует", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (outFile == null) {
-            Toast.makeText(context,"Запишите аудио", Toast.LENGTH_LONG).show();
-            return false;
-        } else {
+    public void preWrite(String path,Context context){
+        if(getDuration() > 350) {
             file = new File(path);
             new MyTask().execute(context);
-            Log.d(TAG, "Start write");
-            Toast.makeText(context,"Сохранено", Toast.LENGTH_LONG).show();
-            return true;
+        } else {
+            Toast.makeText(context,"Error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -141,54 +131,61 @@ public class Sound {
                         Log.i("Load", "on finish");
                     }
                 });
+
                 int duration = getDuration();
-                int mduration = duration - 350;
-                int min = mduration / 1000;
-                int max = duration / 1000;
-                duration = duration - (max * 1000);
-                mduration = mduration - (min * 1000);
-                int mx = 0;
-                if(max > 10){
-                    mx = max / 10;
-                    max = max - (mx * 10);
+                if(duration > 350) {
+                    int mduration = duration - 350;
+                    int min = mduration / 1000;
+                    int max = duration / 1000;
+                    duration = duration - (max * 1000);
+                    mduration = mduration - (min * 1000);
+                    int mx = 0;
+                    if (max > 10) {
+                        mx = max / 10;
+                        max = max - (mx * 10);
+                    }
+                    int mn = 0;
+                    if (min > 10) {
+                        mn = min / 10;
+                        min = min - (mn * 10);
+                    }
+                    fFmpeg.execute(new String[]{"-y", "-i", outFile.getAbsolutePath(),
+                                    "-ss", "00:00:" + mn + "" + min + "." + mduration,
+                                    "-t", "00:00:" + mx + "" + max + "." + duration,
+                                    "-async", "1", "-c", "copy", file.getAbsolutePath()},
+                            new FFmpegExecuteResponseHandler() {
+                                @Override
+                                public void onSuccess(String message) {
+                                    Log.i("FFmpeg", message);
+                                }
+
+                                @Override
+                                public void onProgress(String message) {
+                                    String[] strings = message.split("\n");
+                                    for (String string : strings) {
+                                        Log.i("FFmpeg", string);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(String message) {
+                                    String[] strings = message.split("\n");
+                                    for (String string : strings) {
+                                        Log.e("FFmpeg", string);
+                                    }
+                                }
+
+                                @Override
+                                public void onStart() {
+                                    Log.i("FFmpeg", "on start");
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    Log.i("FFmpeg", "on finish");
+                                }
+                            });
                 }
-                int mn = 0;
-                if(min > 10){
-                    mn = min / 10;
-                    min = min - (mn * 10);
-                }
-                fFmpeg.execute(new String[]{"-y", "-i", outFile.getAbsolutePath(),
-                        "-ss", "00:00:"+mn+""+min+"."+mduration,
-                        "-t", "00:00:"+mx+""+max+"."+duration,
-                        "-async","1", "-c", "copy", file.getAbsolutePath()},
-                        new FFmpegExecuteResponseHandler() {
-                    @Override
-                    public void onSuccess(String message) {
-                        Log.i("FFmpeg", message);
-                    }
-                    @Override
-                    public void onProgress(String message) {
-                        String[] strings = message.split("\n");
-                        for (String string : strings) {
-                            Log.i("FFmpeg", string);
-                        }
-                    }
-                    @Override
-                    public void onFailure(String message) {
-                        String[] strings = message.split("\n");
-                        for (String string : strings) {
-                            Log.e("FFmpeg", string);
-                        }
-                    }
-                    @Override
-                    public void onStart() {
-                        Log.i("FFmpeg", "on start");
-                    }
-                    @Override
-                    public void onFinish() {
-                        Log.i("FFmpeg", "on finish");
-                    }
-                });
             } catch (FFmpegNotSupportedException e) {
                 e.printStackTrace();
             } catch (FFmpegCommandAlreadyRunningException e) {

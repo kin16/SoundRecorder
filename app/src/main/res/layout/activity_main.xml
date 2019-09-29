@@ -3,51 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical|center_horizontal"
-        tools:ignore="MissingConstraints"
-        app:hintTextAppearance="@style/MyHintText"
-        android:id="@+id/input_layout"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp">
-        <EditText
-            android:inputType="textAutoCorrect|textCapSentences"
-            android:id="@+id/input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:hint="@string/title"
-            android:layout_below="@+id/image_view"
-            android:theme="@style/MyEditText"/>
-
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:layout_marginTop="30dp"
-        android:id="@+id/record"
-        android:layout_width="120dp"
-        android:layout_height="55dp"
-        android:text="@string/start_record"
-        android:onClick="onClick"
-        style="@style/ButtonRecord"
-        android:layout_gravity="center_horizontal|center_vertical"/>
-    <Button
-        android:id="@+id/play"
-        android:layout_width="120dp"
-        android:layout_height="55dp"
-        android:text="@string/start_play"
-        android:onClick="onClick"
-        android:layout_marginTop="30dp"
-        style="@style/ButtonMain"
-        android:layout_gravity="center_vertical|center_horizontal" />
 
     <EditText
         android:id="@+id/edit"
@@ -61,51 +19,139 @@
         android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         style="@style/MyEditText"/>
 
+    <TextView
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ready_string" />
+
     <LinearLayout
-        android:baselineAligned="false"
-        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-        <LinearLayout
+        android:orientation="horizontal">
+        <Button
+            android:onClick="onClickRipe"
+            android:id="@+id/be"
+            android:text="@string/be"
             android:layout_weight="2"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_marginLeft="45dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ready_string" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
 
-            <Spinner
-                android:id="@+id/ready"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/ready"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/size_string" />
 
-            <Spinner
-                android:id="@+id/size"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_marginRight="20dp"
-                android:entries="@array/size"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <Button
+            android:onClick="onClickRipe"
+            android:id="@+id/bc"
+            android:layout_weight="2"
+            android:text="@string/bc"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+
+
+
+        <Button
+            android:onClick="onClickRipe"
+            android:id="@+id/ba"
+            android:text="@string/ba"
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:onClick="onClickRipe"
+            android:id="@+id/bd"
+            android:text="@string/bd"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+        <Button
+            android:onClick="onClickRipe"
+            android:id="@+id/bf"
+            android:layout_weight="2"
+            android:text="идеальный"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+        <Button
+            android:onClick="onClickRipe"
+            android:id="@+id/bb"
+            android:text="@string/bb"
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/size_string" />
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:onClick="onClickSize"
+            android:id="@+id/d"
+            android:text="@string/d"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+
+        <Button
+            android:onClick="onClickSize"
+            android:id="@+id/c"
+            android:text="@string/c"
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+        <Button
+            android:onClick="onClickSize"
+            android:id="@+id/b"
+            android:layout_weight="2"
+            android:text="@string/b"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+
+        <Button
+            android:onClick="onClickSize"
+            android:id="@+id/a"
+            android:text="@string/a"
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
     </LinearLayout>
 
     <TextView
@@ -115,32 +161,44 @@
         android:layout_height="wrap_content"
         android:text="@string/question"/>
 
-    <RadioGroup
-        android:id="@+id/radiogr"
+    <LinearLayout
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp" >
-        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
             android:id="@+id/l"
+            android:onClick="onClickHit"
+            android:text="@string/l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/l"/>
-        <RadioButton
-            android:id="@+id/k"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/k"/>
-    </RadioGroup>
+            style="@style/MyButton"/>
 
+        <Button
+            android:id="@+id/k"
+            android:onClick="onClickHit"
+            android:text="@string/k"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyButton"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/button"
+        android:onClick="onClickA"
+        android:text="Новый Арбуз"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/MyButton"/>
     <Button
         android:layout_marginTop="20dp"
         android:id="@+id/write"
         android:layout_width="160dp"
         android:layout_height="55dp"
-        android:text="@string/save"
+        android:text="@string/start_record"
         android:onClick="onClick"
         style="@style/ButtonMain"
         android:layout_gravity="center_horizontal"/>
