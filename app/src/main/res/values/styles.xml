@@ -9,6 +9,9 @@
     </style>
 
     <style name="MyButton">
+        <item name="android:background">@drawable/button</item>
+    </style>
+    <style name="MyStButton">
         <item name="android:background">@drawable/buttons</item>
     </style>
 

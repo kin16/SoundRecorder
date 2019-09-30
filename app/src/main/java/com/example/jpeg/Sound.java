@@ -19,7 +19,6 @@ import java.io.File;
 
 public class Sound {
     private MediaRecorder mediaRecorder;
-    private MediaPlayer mediaPlayer;
     private final String fileName = Environment.getExternalStorageDirectory() + "/records/record_pattern.aac";
     private File outFile;
     private File file;
@@ -60,27 +59,7 @@ public class Sound {
         }
     }
 
-    //Начало воспроизведения
-    public void playStart(Context context) {
-        try {
-            if (file == null) {
-                Toast.makeText(context, "Сохраните аудио", Toast.LENGTH_LONG).show();
-            } else {
-                releasePlayer();
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(file.getAbsolutePath());
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                    mediaPlayer.release();
-                }
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     private void releaseRecorder() {
         if (mediaRecorder != null) {
@@ -89,20 +68,16 @@ public class Sound {
         }
     }
 
-    private void releasePlayer() {
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
 
     //Подготовка к обрезанию
-    public void preWrite(String path,Context context){
+    public boolean preWrite(String path,Context context){
         if(getDuration() > 350) {
             file = new File(path);
             new MyTask().execute(context);
+            return true;
         } else {
             Toast.makeText(context,"Error", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
